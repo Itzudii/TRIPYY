@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='bootstrap/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/loginStyle.css')}}">
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+
+
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <!-- <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/loginStyle.css"> -->
+</head>
+
+
+<body>
+    <div>
+        <h1 class="text-center">Tripyy</h1>
+    </div>
+    <div class="logout-bar">
+        <h4>{{username}}</h4>
+        <div>
+
+            <a href="{{ url_for('map') }}">
+
+                <button type="button" class="btn btn-danger">Map</button>
+            </a>
+            <a href="{{ url_for('guide') }}">
+
+                <button type="button" class="btn btn-danger">Guide</button>
+            </a>
+            <a href="{{ url_for('logout') }}">
+
+                <button type="button" class="btn btn-danger">logout</button>
+            </a>
+        </div>
+    </div>
+    <main>
+        <section class="search-box full">
+            <form method="POST">
+                <input type="text" class="search-field" placeholder="Search" name="search">
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </section>
+         {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <mark class="{{ category }}">{{ message }}</mark>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        <section class="mt-4 display " id="content">
+            
+            
+            <div class="space-div1">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>go somewhere</h1>
+                        <p>explore places in map...</p>
+                        <a href="{{ url_for('mapData') }}">
+                            <button class="btn btn-primary">Go</button>
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <script>
+
+                    const weatherData = {{ weather | default ({}) | tojson | safe }};
+                    const today = {{ tday | default ({}) | tojson | safe }};
+                    const coord = {{ poi | default ({}) | tojson | safe }};
+                    const _display = "{{display}}";
+                    function FTC(kelvin) {
+                        let celsius = kelvin - 273.15;
+                        return celsius.toFixed(1);
+                    }
+
+
+
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        var _contentbox = document.querySelector('#content');
+                        var _searchbox = document.querySelector('.search-box');
+                        if (_display == "True") {
+                            _contentbox.classList.remove('display')
+                            _searchbox.classList.remove('full')
+                        }
+
+                        apiKey = "Zl6uQG-1R_LuHSw9jdlDODppJXGeZoLlLTuFzK5-HFk";
+                        platform = new H.service.Platform({ apikey: apiKey });
+                        var defaultLayers = platform.createDefaultLayers();
+
+                        var map = new H.Map(
+                            document.getElementById('map'),
+                            defaultLayers.vector.normal.map,
+                            {
+                                zoom: 11,
+                                center: { lat: coord['coord'][0], lng: coord['coord'][1] }
+                                // center: { lat: 52.5200, lng: 13.4050 }
+                            });
+
+                        var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+                        var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+
+                        function addBoxMarker(lat, lng, text) {
+                            var boxSVG = `<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="30" height="30" style="fill: red; stroke: black; stroke-width: 2;" />
+                                            </svg>`;
+                            var boxIcon = new H.map.Icon(boxSVG, { size: { w: 10, h: 10 } });
+                            var marker = new H.map.Marker({ lat: lat, lng: lng }, { icon: boxIcon });
+                            map.addObject(marker);
+
+                            var bubble = new H.ui.InfoBubble({ lat: lat, lng: lng }, { content: `<b>${text}</b>` });
+
+                            marker.addEventListener('pointerenter', function () {
+                                ui.addBubble(bubble);
+                            });
+
+                            marker.addEventListener('pointerleave', function () {
+                                ui.removeBubble(bubble);
+                            });
+                        }
+                        coord['data'].forEach(place => {
+                            addBoxMarker(place.lat, place.lng, place.name);
+                        })
+                        // var router = platform.getRoutingService();
+
+
+                        let days = document.querySelectorAll('.day');
+                        let day_boxs = document.querySelectorAll('.day-box');
+                        let index = 0;
+                        days.forEach(day => {
+                            day.value = index;
+                            index++;
+                            day.querySelector('.btn').classList.add('display');
+                            day.addEventListener('click', () => {
+                                days.forEach(day => {
+                                    day.querySelector('.btn').style.display = 'none';
+                                    day.querySelector('.btn').classList.remove('display');
+                                });
+                                day.querySelector('.btn').style.display = '';
+                                day_boxs.forEach(day_box => {
+                                    day_box.style.display = 'none';
+                                    day_box.classList.remove('display');
+                                })
+                                day_boxs[day.value].style.display = '';
+
+                            });
+                        });
+
+                        if (weatherData) {
+                            const tableBody = document.querySelectorAll(".weatherTable");
+                            for (let i = 0; i < tableBody.length; i++) {
+
+                                weatherData[i].forEach(day => {
+                                    let row = `<tr>
+                                        <td>${day.time}</td>
+                                        <td>${FTC(day.temp)}°C</td>
+                                        <td>${FTC(day.min)}°C</td>
+                                        <td>${FTC(day.max)}°C</td>
+                                        <td>${day.humidity}</td>
+                                        <td>${day.speed}</td>
+                                        <td>${day.main}</td>
+                                        <td>${day.description}</td>
+                                        </tr>`;
+                                    tableBody[i].innerHTML += row;
+                                });
+                            }
+
+                        }
+                        if (today) {
+                            let d = document.querySelectorAll('.day');
+                            let index = 0;
+                            d.forEach(day => {
+                                let p = day.querySelector('p');
+                                p.innerHTML = today[index];
+                                let h = day.querySelector('h1');
+                                h.innerHTML = FTC(weatherData[index][0].temp) + '°C';
+                                index++;
+                            });
+
+                        }
+
+
+
+                    });
+
+
+                </script>
+                <div class="days card">
+                    <div class="day">
+                        <p></p>
+                        <h1>32</h1>
+                        <div class="btn btn-primary"></div>
+                    </div>
+                    <div class="day">
+                        <p></p>
+                        <h1>32</h1>
+                        <div class="btn btn-primary"></div>
+                    </div>
+                    <div class="day">
+                        <p></p>
+                        <h1>32</h1>
+                        <div class="btn btn-primary"></div>
+                    </div>
+                    <div class="day">
+                        <p></p>
+                        <h1>32</h1>
+                        <div class="btn btn-primary"></div>
+                    </div>
+                    <div class="day">
+                        <p></p>
+                        <h1>32</h1>
+                        <div class="btn btn-primary"></div>
+                    </div>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="table-responsive day-box current display">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>date</th>
+                                    <th>temp</th>
+                                    <th>min</th>
+                                    <th>max</th>
+                                    <th>hum</th>
+                                    <th>wind</th>
+                                    <th>state</th>
+                                    <th>discription</th>
+                                </tr>
+                            </thead>
+                            <tbody class="weatherTable">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive day-box current display">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>date</th>
+                                    <th>temp</th>
+                                    <th>min</th>
+                                    <th>max</th>
+                                    <th>hum</th>
+                                    <th>wind</th>
+                                    <th>state</th>
+                                    <th>discription</th>
+                                </tr>
+                            </thead>
+                            <tbody class="weatherTable">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive day-box current display">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>date</th>
+                                    <th>temp</th>
+                                    <th>min</th>
+                                    <th>max</th>
+                                    <th>hum</th>
+                                    <th>wind</th>
+                                    <th>state</th>
+                                    <th>discription</th>
+                                </tr>
+                            </thead>
+                            <tbody class="weatherTable">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive day-box current display">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>date</th>
+                                    <th>temp</th>
+                                    <th>min</th>
+                                    <th>max</th>
+                                    <th>hum</th>
+                                    <th>wind</th>
+                                    <th>state</th>
+                                    <th>discription</th>
+                                </tr>
+                            </thead>
+                            <tbody class="weatherTable">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-responsive day-box current display">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>date</th>
+                                    <th>temp</th>
+                                    <th>min</th>
+                                    <th>max</th>
+                                    <th>hum</th>
+                                    <th>wind</th>
+                                    <th>state</th>
+                                    <th>discription</th>
+                                </tr>
+                            </thead>
+                            <tbody class="weatherTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <h1>Description</h1>
+                <p>{{ info }}</p>
+
+                <br>
+
+                <!-- <div> -->
+                <h1>Places to visit💕</h1>
+                <!-- </div> -->
+                <br>
+                <div style="width: 400px;height: 400px;" id="map" class="map">
+
+                </div>
+
+
+            </div>
+        </section>
+    </main>
+
+
+</body>
+
+</html>

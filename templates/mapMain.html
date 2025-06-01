@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAP</title>
+
+    <!-- HERE Maps Scripts -->
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/mapStyle.css') }}">
+    <!-- <link rel="stylesheet" href="../static/css/mapStyle.css"> -->
+</head>
+    <body>
+    <div id="base">
+        <!-- map \/ -->
+        <div id="map"></div>
+        <!-- <script src="../static/js/mapScript.js"></script> -->
+        <script src="{{ url_for('static',filename='js/mapScript.js') }}"></script>
+        <!-- map /\ -->
+    
+        <div id="coordinates" data-coords='{{ coords_list|tojson }}'></div>
+        <!-- ui\/ -->
+        <div class="search-div">
+            <div class="search-div-div">
+                <input type="text" placeholder="Enter city">
+                <button>Search</button>
+            </div>
+        </div>
+        <div class="footer">
+            <button id="traffic_btn"><strong>🚦</strong></button>
+            <button id="route_btn"><strong>⬆️</strong></button>
+            <button id="currentLoc_btn"><strong>👁️‍🗨️</strong></button>
+        </div>
+        <!-- ui/\ -->
+        
+    </div>
+</body>
+
+</html>
