@@ -1,0 +1,135 @@
+:root {
+    --main-color: #ffffff;
+}
+
+.logout-bar {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    box-shadow: 0 10px 10px -10px rgb(159, 159, 159);
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    margin: 10px;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.space-div1 {
+    width: 80%;
+}
+
+.search-box {
+    width: 100%;
+    height: 300px;
+    background-image: url("../img/bg/bg-2.jpg");
+    background-size: cover;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.search-box form {
+    width: clamp(300px, 90%, 500px);
+    height: 40px;
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
+.search-field,
+.search-btn {
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    border: none;
+}
+
+.search-btn {
+    background-color: rgb(32, 57, 249);
+    border-radius: 0 10px 10px 0;
+    color: var(--main-color);
+}
+
+.search-field {
+    border-radius: 10px 0 0 10px;
+    /* border: 2px solid black; */
+}
+
+.search-field:focus {
+    outline: none;
+}
+
+.bg-box {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+}
+
+.bg-img {
+
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../img/1976998.jpg");
+    background-size: 100vw auto;
+    position: sticky;
+    top: 0;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    height: auto;
+    cursor: pointer;
+
+}
+
+.current {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: CENTER;
+}
+
+.day {
+    border: 1px solid rgb(197, 189, 189);
+    border-top: none;
+    text-align: center;
+
+}
+
+.temp {
+    font-size: 40px;
+}
+
+.icon {
+    width: 100px;
+    height: 100px;
+    background-color: brown;
+}
+
+/* .complex-weather{
+    background-color:red ;
+    position: relative;
+    width: 100%;
+    height: 100px;
+
+
+} */
+.display {
+    display: none;
+}
+.full{
+    height: 70vh;
+
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGNUP</title>
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href=" {{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href=" {{ url_for('static',filename='css/loginStyle.css') }}">
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <link rel="stylesheet" href="..\static\css\loginStyle.css"> -->
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="mb-3">
+            <h3 class="text-center">Signup </h3>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group mt-4">
+                    <label class="form-label">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group mt-4">
+                    <label class="form-label">Email address</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group mt-4">
+                    <label class="form-label">Password</label>
+                    {{ form.password }}
+                </div>
+                <div class="form-group mt-4">
+                    <label class="form-label">Confirm</label>
+                    {{ form.confirm_password }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form.submit(class='btn btn-primary') }}
+                </div>
+                <div class="form-group mt-4">
+                    <p>Already have account<a href="{{ url_for('login') }}" class="ForgetPwd"> login.</a></p>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <mark class="{{ category }}">{{ message }}</mark>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+</body>
+
+</html>

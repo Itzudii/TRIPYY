@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- inspireby https://fivepathways.com/?ref=landingfolio -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INDEX</title>
+    <link rel="stylesheet" href=" {{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/indexStyle.css') }}">
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="img">
+        <h1 class="text-center">TRIPYY</h1>
+        <div class="center">
+
+        </div>
+        <div class="text-center center mt-4">
+
+            <div class="hand"></div>
+           <a href="{{url_for('login')}}"><button class="getstart">Start Journey</button></a>
+        </div>
+    </div>
+    <div class="container" style="display: flex;justify-content: center;">
+        <h1 class="typewriter">Explore Cities Like Never Before...</h1>
+    </div>
+    <div class="text-center">
+        <div class="bar">
+            <div class="bar-div">
+                <div class="bar-div1 bar-div1-1">
+                </div>
+                <div class="bar-div2">
+                    <span>
+                        <h6>Live Weather Updates</h6>
+                        <p>Stay informed with real-time forecasts.</p>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="dot-div">
+            <img src="{{ url_for('static',filename='img/entity/dot_r.png') }}" alt="">
+        </div>
+
+        <div class="bar">
+            <div class="bar-div fxr">
+                <div class="bar-div2">
+                    <span>
+                        <h6>Geographical Insights</h6>
+                        <p>Learn about terrain, elevation, and more.</p>
+                    </span>
+                </div>
+                <div class="bar-div1 bar-div1-2"></div>
+            </div>
+
+        </div>
+        <div class="dot-div">
+            <img class="dot-reverse" src="{{url_for('static',filename='img/entity/dot_r.png')}}" alt="">
+        </div>
+        <div class="bar">
+            <div class="bar-div">
+                <div class="bar-div1 bar-div1-3">
+                </div>
+                <div class="bar-div2">
+                    <span>
+                        <h6> Points of Interest</h6>
+                        <p> Find restaurants, landmarks, parks, and more.</p>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="dot-div">
+            <img src="{{ url_for('static',filename='img/entity/dot_r.png') }}" alt="">
+        </div>
+
+        <div class="bar">
+            <div class="bar-div fxr">
+                <div class="bar-div2">
+                    <span>
+                        <h6>Interactive Map</h6>
+                        <p>Navigate and explore the city with ease.</p>
+                    </span>
+                </div>
+                <div class="bar-div1 bar-div1-4"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ballom">
+        <img src="{{url_for('static',filename='img/bg/trees.png')}}" alt="">
+    </div>
+    <footer>
+        <h1 class="text-center" style="color: #000000;">contact us</h1>
+        <div class="social-drawer">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-linkedin"></i>
+
+
+        </div>
+
+    </footer>
+</body>
+
+</html>

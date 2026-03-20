@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP</title>
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href=" {{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <!-- <link href="..\static\bootstrap\bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <link rel="stylesheet" href="..\static\css\loginStyle.css"> -->
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="mb-3">
+            <h3 class="text-center">Enter OTP </h3>
+            <form method="post">
+                <div class="form-group">
+                    <label class="form-label">Enter OTP</label>
+                    <input type="number" class="form-control" name="otp" placeholder="otp XXXX *" value="" />
+                </div>
+                <br>
+                <div class="form-group justify-content-between " style="display: flex;">
+                    <input class="btn btn-primary" type="submit" class="btnSubmit" value="confirm" />
+                    <p class="">send otp again <a href="{{ url_for('otp') }}" class="ForgetPwd"> click here.</a></p>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <mark class="{{ category }}">{{ message }}</mark>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+</body>
+
+</html>

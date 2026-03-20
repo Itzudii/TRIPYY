@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href=" {{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/icon/100.png')}}" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <div class="mb-3">
+            <h3 class="text-center">Login </h3>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group mt-4">
+                    <label class="form-label">Email address</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group mt-4">
+                    <label class="form-label">Password</label>
+                    {{ form.password }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form.submit(class='btn btn-primary') }}
+                </div>
+                <div class="form-check form-check-inline">
+                    {{ form.is_remember }}
+                    <label class="form-check-label" for="inlineCheckbox1">Remember me</label>
+                </div>
+                <div class="form-group mt-4">
+                    <a href="#" class="ForgetPwd">Forget Password?</a>
+                </div>
+                  
+                <div class="form-group">
+                    <p>Not have account<a href="{{ url_for('signup') }}" class="ForgetPwd"> create one.</a></p>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <mark class="{{ category }}">{{ message }}</mark>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+</body>
+
+</html>
